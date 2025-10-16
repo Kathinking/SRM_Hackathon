@@ -1,6 +1,6 @@
 import type { PortalRecord, MatchResponse } from "@/types/portal";
 
-const BASE = import.meta.env.VITE_API_BASE || "http://localhost:5050/api";
+const BASE = import.meta.env.VITE_API_BASE;
 
 export async function postMatch(records: PortalRecord[]): Promise<MatchResponse> {
   const res = await fetch(`${BASE}/match`, {
