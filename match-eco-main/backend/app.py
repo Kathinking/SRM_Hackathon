@@ -16,17 +16,24 @@ from flask_jwt_extended import (
 # You already have this in engine.py
 from engine import process_portal_factories
 
+# ---- Import SQLAlchemy create_engine ----
+from sqlalchemy import create_engine
 
-# =========================
-# App / CORS / JWT config
-# =========================
-app = Flask(__name__)
-
+# ---- Load .env (optional for Render) ----
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except Exception:
     pass
+
+# ---- Database ----
+DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL)
+
+# =========================
+# App / CORS / JWT config
+# =========================
+app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret")
 app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "change-this-jwt-secret")
@@ -48,7 +55,6 @@ CORS(
 )
 
 DB_PATH = os.environ.get("FACTORY_DB", "app.db")
-
 
 # =========================
 # SQLite helpers / Schema
